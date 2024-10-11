@@ -1,0 +1,22 @@
+.mat-select-panel {
+  width:20px;
+  max-width:20px;
+  padding-bottom: 100px;
+
+  position: flex;
+}
+::ng-deep .mat-select-panel{
+  width:2000px;
+  font-size: 30px;
+}
+.col-sm-10.mt-5 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:  50vh;
+}
+video {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

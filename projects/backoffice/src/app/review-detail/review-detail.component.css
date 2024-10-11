@@ -1,0 +1,44 @@
+.comment-placeholder {
+    display: none; /* Initially hidden */
+  }
+  
+  
+  .comment-placeholder {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it stays on top of other content */
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+   /* Target the mat-expansion-panel */
+.mat-expansion-panel {
+  position: fixed;
+  bottom: 0;
+  width: 100%; /* Adjust as needed */
+  z-index: 1000; /* Ensure it stays on top of other content */
+}
+
+.mat-expansion-panel-header {
+  padding: 10px;
+  background-color: #ccc; /* Unique background color */
+  border-bottom: 1px solid #ccc; /* Adds a subtle border below the header */
+}
+
+/* Custom style for the expansion panel body */
+.mat-expansion-panel-body {
+  background-color: #f8f8f8; /* Different background color for the body */
+  padding: 20px; /* More padding for the body content */
+}
+
+/* Optional: Style the comment-form if needed */
+.comment-form {
+  padding: 20px; /* Adjust padding as needed */
+}
+
+
+.mat-panel-title:hover {
+cursor: pointer;
+}

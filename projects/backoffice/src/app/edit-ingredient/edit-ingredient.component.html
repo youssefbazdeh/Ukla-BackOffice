@@ -1,0 +1,369 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <app-menu></app-menu>
+    </aside> <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+            <!-- User -->
+            <button class="dropdown-item" (click)="onLogoutClick()">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button> <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Edit/</span> Ingredient</h4>
+
+          <!-- Basic Layout -->
+          <form [formGroup]="IngredientForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+            <div class="card mb-4">
+              <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Ingredient Information</h5>
+              </div>
+              <div class="card-body">
+
+
+
+
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Name*</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName="name"
+                      placeholder="{{this.ingredient.name}}" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Type*</label>
+                  <div class="col-sm-10">
+                    <select class="form-select" id="exampleFormControlSelect1" formControlName="type">
+
+
+                      <option value="Fruits">Fruits</option>
+                      <option value="Vegetables">Vegetables</option>
+                      <option value="Dairy">Dairy</option>
+                      <option value="Starches">Starches</option>
+                      <option value="Spices_herbs">Spices_herbs</option>
+                      <option value="Meat">Meat</option>
+                      <option value="Fat">Fat</option>
+                      <option value="Other">Other</option>
+
+
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="formFile" class="col-sm-2 col-form-label">Image*
+                    <img  *ngIf="this.ingredient.image"  height="60" width="80" style="padding-bottom: 2px; padding-left: 4px;"
+                      [src]="imagesToShow[this.ingredient.image.id]">
+                      <img  *ngIf="!this.ingredient.image" height="60" width="80"
+                         src="/assets/img/elements/noimage.jpg">
+
+                  </label>
+
+                  <div class="col-sm-10">
+
+                    <input class="form-control" name="image" type="file" id="formFile"
+                      (change)="onFileSelectedI($event)" />
+                  </div>
+                </div>
+
+
+                <!-- Unit Alternatives Section -->
+                <div class="card mb-4">
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Unit Alternatives</h5>
+                  </div>
+                  <div class="card-body">
+                    <div formArrayName="unitAlternatives">
+                      <div *ngFor="let unitAlternative of unitAlternatives.controls; let i = index" class="mb-3">
+                        <div [formGroupName]="i">
+                          <div class="row">
+                            <label class="col-sm-2 col-form-label">Unit</label>
+                            <div class="col-sm-4">
+                              <select class="form-select" formControlName="unit" placeholder="slect a unit" required>
+
+                                <option value="g" selected>g</option>
+                                <option value="ml" selected>ml</option>
+                                <option value="cl" selected>cl</option>
+                                <option value="Kg" selected>Kg</option>
+                                <option value="L" selected>L</option>
+                                <option value="cup" selected>cup</option>
+                                <option value="tsp" selected>tsp</option>
+                                <option value="tbsp" selected>tbsp</option>
+                                <option value="small" selected>small</option>
+                                <option value="medium" selected>medium</option>
+                                <option value="large" selected>large</option>
+                                <option value="slice" selected>slice</option>
+                                <option value="clove" selected>clove</option>
+                              </select>
+                              <div *ngIf="submitted && unitAlternatives.controls[i].get('unit')?.hasError('required')"
+                                class="alert alert-danger">
+                                Unit is required!
+                              </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Conversion Rate</label>
+                            <div class="col-sm-4">
+                              <input type="number" class="form-control" [formControlName]="'conversionRate'"
+                                placeholder="100" required />
+
+                              <div
+                                *ngIf=" submitted && unitAlternatives.controls[i].get('conversionRate')?.hasError('required')"
+                                class="alert alert-danger">
+                                Conversion Rate is required!
+                              </div>
+                              <div
+                                *ngIf=" submitted && unitAlternatives.controls[i].get('conversionRate')?.hasError('notANumber')"
+                                class="alert alert-danger">
+                                Conversion Rate must be a number!
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button *ngIf="i > 0" class="btn btn-danger" (click)="removeUnitAlternative(i)">Remove</button>
+
+
+
+
+
+                      </div>
+
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="addUnitAlternative()">Add Unit
+                      Alternative</button>
+                  </div>
+                </div>
+                <!-- / Unit Alternatives Section -->
+
+                <!-- multiLanguage Section -->
+                <div class="card mb-4">
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Ingredient Language Translation</h5>
+                  </div>
+                  <div class="card-body">
+                    <div formArrayName="translatedIngredients">
+                      <div *ngFor="let translatedIngredient of translatedIngredients.controls; let i = index" class="mb-3">
+                        <div [formGroupName]="i">
+                          <div class="row">
+                            <label class="col-sm-2 col-form-label">Name </label>
+                            <div class="col-sm-4">
+                              <input type="text" class="form-control" formControlName="name" placeholder="name" required>
+
+                              <div *ngIf="submitted && translatedIngredients.controls[i].get('name')?.hasError('required')"
+                                class="alert alert-danger">
+                                languageCode is required!
+                              </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Language code</label>
+                            <div class="col-sm-4">
+                             <select class="form-select" formControlName="languageCode" required>
+                              <option *ngFor="let language of languages" [value]="language.value" [disabled]="language.value === (translatedIngredients.controls[i].get('languageCode')?.value ?? '') || selectedLanguages.includes(language.value)" [ngClass]="{'available-option': !selectedLanguages.includes(language.value)}" >
+                                {{language.label}}
+                               </option>
+                             </select>
+                             <div *ngIf="submitted && translatedIngredients.controls[i].get('languageCode')?.hasError('required')"
+                                   class="alert alert-danger">
+                                Language code is required!
+                             </div>
+                            </div>
+                                                        
+
+                          </div>
+                        </div>
+                        <br>
+                        <button *ngIf="i > 0" class="btn btn-danger" (click)="removeLanguage(i)">Remove</button>
+
+
+
+
+
+                      </div>
+
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="addLanguage()" [disabled]="selectedLanguages.length >= 3">Add Language</button>
+                  </div>
+                </div>
+                <!-- / multiLanguage Section -->
+
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Number of Calories</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="nbrCalories100gr" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Fat</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="fat" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Protein</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="protein" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Carbs</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="carbs" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Sugar</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="sugar" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Fiber</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="fiber" />
+                  </div>
+
+                </div>
+
+
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Saturated Fatty Acids</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="saturatedFattyAcids" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Cholesterol</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="cholesterol" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Calcium</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="calcium" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Magnesium</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="magnesium" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Sodium</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="sodium" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Zinc</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" formControlName="zinc" />
+                  </div>
+
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Iron</label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="name" formControlName="iron" />
+                  </div>
+
+                </div>
+
+
+
+
+
+
+
+                <hr>
+                <div class="row justify-content-end">
+                  <div class="col-sm-10">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                  </div>
+                </div>
+                <app-loader *ngIf="loaderService.loading$ | async"> </app-loader>
+
+
+
+
+              </div>
+            </div>
+          </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>

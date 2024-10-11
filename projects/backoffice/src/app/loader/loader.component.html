@@ -1,0 +1,29 @@
+<div *ngIf="indication">
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true">
+    <div *ngIf="progressIndicator<100 && remainingTimeIndicator!=0 ">
+    <div style="margin-top: 50px; margin-bottom: 20px;">
+      <p style="color: white">Loading... {{progressIndicator}}% complete. Estimated time : {{remainingTimeIndicator}} minutes.</p>
+   </div>
+    <div *ngIf="progressIndicator > 0 && progressIndicator < 100" class="progress-bar" [style.width.%]="progressIndicator" ></div>
+  </div>
+
+  <div *ngIf="progressIndicator==100 ">
+    <div style="margin-top: 50px; margin-bottom: 20px;">
+      <p style="color: white">Please wait, video under treatment...</p>
+    </div>
+  </div>
+  <div *ngIf="remainingTimeIndicator==0 && progressIndicator!=100">
+    <div style="margin-top: 50px; margin-bottom: 20px;">
+      <p style="color: white">Loading... {{progressIndicator}}% complete. Estimated time : less than one minutes.</p>
+    </div>
+  </div>
+  </ngx-spinner>
+  
+   
+</div>
+
+
+<div *ngIf="!indication">
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p>
+  </ngx-spinner>
+</div>

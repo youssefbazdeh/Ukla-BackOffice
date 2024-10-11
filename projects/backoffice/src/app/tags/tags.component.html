@@ -1,0 +1,120 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <app-menu></app-menu>
+    </aside>    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+              <i class="bx bx-search fs-4 lh-0"></i>
+              <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                aria-label="Search..." />
+            </div>
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+
+            <button class="dropdown-item" (click)="onLogoutClick()">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button>
+          </ul>
+        </div>
+      </nav>
+
+
+<div class="content-wrapper">
+  <!-- Content -->
+
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Liste /</span> Tags</h4>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="card">
+
+
+          <h5 class="card-header">Tags Details</h5>
+
+
+
+          <div class="table-responsive text-nowrap">
+            <table class="table">
+              <caption class="ms-4">
+                List of Tags
+              </caption>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Title</th>
+
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tag of tags">
+                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> {{tag.id}}</td>
+                  <td>{{tag.title}}</td>
+
+
+
+                  <td>
+                    <div class="dropdown">
+                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="openUpdate(tag.id)"
+                          ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="deleteTag(tag.id)"
+                          ><i class="bx bx-trash me-1"></i> Delete</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <!-- /Account -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- / Content -->
+
+
+</div>
+</div></div></div>
+<div class="buy-now">
+  <a
+    href="/AddTag"
+    class="btn btn-primary btn-buy-now"
+  >Add Tag</a
+  >
+</div>

@@ -1,0 +1,125 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <app-menu></app-menu>
+    </aside>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+            <!-- User -->
+            <button class="dropdown-item"  (click)="onLogoutClick()">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button>              <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Add/</span> Allergy </h4>
+
+          <!-- Basic Layout -->
+          <form [formGroup]="AllergyForm" (ngSubmit)="onSubmit()">
+
+            <div class="card mb-4">
+              <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Allergy</h5>
+              </div>
+              <div class="card-body">
+
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Name*</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" formControlName="name"
+                           placeholder="greek yogurt" />
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="formFile" class="col-sm-2 col-form-label">Image*</label>
+
+                  <div class="col-sm-10">
+
+                    <input class="form-control" name="image" type="file" id="formFile"
+                           (change)="onFileSelectedV($event)"/>
+                  </div>
+                </div>
+                
+                <div formGroupName="ingredient">
+                  <div class="row mb-3 float-container">
+                    <label class="col-sm-2 col-form-label">Ingredients*</label>
+                    <div class="col-sm-10">
+                      <div class="form-select flex-container" data-bs-toggle="dropdown" (click)="toggleDropdown($event)">
+                        <div class="ingredientE-container" *ngFor="let option of selectedOptions" class="selected-option">
+                          <div class="ingredientE-item">
+                            <img *ngIf="option?.image?.id" width="30" height="30" style="padding-bottom: 2px;" [src]="imagesToShow[option.image.id]">
+                            {{option.name}}
+                            <button class="btn p-0 hide-arrow custom-button" (click)="removeSelectedItem(option)">
+                              <i class="bx bx-x-circle"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                          <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." #searchInput (input)="searchTerm$.next(searchInput.value)">
+                          <div class="dropdown-item" *ngFor="let option of filteredIng | slice:0:10; let o = index" [class.disabled]="option.disable" (click)="selectItem(option, option.id)" [ngClass]="{ 'show': isDropdownOpen }">
+                            <img *ngIf="option.image!=null" width="30" height="30" [src]="imagesToShow[option.image.id]">
+                            {{ option.name }}
+                          </div>
+                          <div id="showMore" [style.display]="true ? 'block' : 'none'"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row justify-content-end">
+                  <div class="col-sm-10">
+                    <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                  </div>
+                </div>
+                <app-loader *ngIf="loaderService.loading$ | async"></app-loader>
+
+
+              </div>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

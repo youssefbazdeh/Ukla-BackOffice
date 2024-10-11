@@ -1,0 +1,9 @@
+/*.form-control::placeholder {*/
+/*  color: black;*/
+/*}*/
+/* styles.css or your component's CSS file */
+.available-option {
+    background-color: #ccc; /* Light gray */
+    color: #333; /* Darker text for contrast */
+   }
+   

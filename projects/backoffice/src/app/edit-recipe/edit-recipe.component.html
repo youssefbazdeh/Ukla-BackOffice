@@ -1,0 +1,364 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <app-menu *ngIf="currentUserRole === 'ROLE_ADMIN'"></app-menu>
+  <back-creator-menu *ngIf="currentUserRole === 'ROLE_CREATOR'"></back-creator-menu>
+    </aside>
+    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center"></div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+            <!-- User -->
+            <button class="dropdown-item" (click)="onLogoutClick()">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button>
+            <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">Edit/</span> Recipe
+          </h4>
+
+          <!-- Basic Layout -->
+
+          <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h5 class="mb-0">Basic Information</h5>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="RecipeForm" (ngSubmit)="onSubmit()">
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="RecipeName">Name*</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name" formControlName="name"
+                      placeholder="Chicken Enchilada" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label" for="basic-default-message">Description*</label>
+                  <div class="col-sm-10">
+                    <textarea id="basic-default-message" class="form-control"
+                      placeholder="My all-time favorite chicken enchilada recipe! See notes above for possible ingredient variations."
+                      formControlName="description"></textarea>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Preparation Time
+                  </label>
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" placeholder="15" formControlName="preparationTime" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">cooking Time</label>
+                  <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                      <input type="number" class="form-control" placeholder="45" formControlName="cookingTime"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Portions</label>
+                  <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                      <input type="number" class="form-control" placeholder="45" formControlName="portions"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Calories Number</label>
+                  <div class="col-sm-10">
+                    <div class="input-group input-group-merge">
+                      <input type="number" class="form-control" placeholder="1000" formControlName="calories" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="formFile" class="col-sm-2 col-form-label">Image*
+                    <img width="60" height="45" style="padding-bottom: 2px; padding-left: 4px"
+                      [src]="imagesToShow[this.recipe.image.id]" />
+                  </label>
+
+                  <div class="col-sm-10">
+                    <input class="form-control" name="image" type="file" id="formFile"
+                      (change)="onFileSelectedI($event)" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="formFile" class="col-sm-2 col-form-label">Video</label>
+                 
+                  <div class="col-sm-10">
+                     <div>
+                       <input class="form-control" name="video" type="file" (change)="onFileSelectedRecipeVideo($event)" />
+                     </div>
+                 
+                     <div class="col-sm-10 mt-5" style="
+                         display: flex;
+                         justify-content: center;
+                         align-items: center;
+                         height: 50vh;
+                         overflow: hidden; 
+                       ">
+                       <video #videoPlayer width="100%" height="100%" style="object-fit: contain;" controls><source [src]="getRecipeVideoUrl()" type="video/mp4"></video>
+                       <br />
+                     </div>
+                  </div>
+                 </div>
+
+                <hr />
+                <div formArrayName="tags">
+                  <div *ngFor="let entry of tags.controls; let i = index">
+                    <div [formGroupName]="i">
+                      <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Tag {{ i + 1 }}</h5>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Tag</label>
+
+                        <div class="col-sm-10">
+                          <select class="form-select" id="tag_faces" aria-label="Default select example"
+                            (change)="changeTags($event, i)" formControlName="id">
+                            <option *ngFor="let tag of tag" [value]="tag.id" [disabled]="tag.disable"
+                              [selected]="tag === 'default'">
+                              {{ tag.title }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn rounded-pill btn-icon btn-danger" (click)="removeTag(i)">
+                      <span class="tf-icons bx bx-minus"> </span>
+                    </button>
+                    <span>&nbsp;Remove Tag&nbsp;&nbsp;&nbsp;</span>
+                    <hr />
+                  </div>
+                  <button type="button" class="btn rounded-pill btn-icon btn-primary" (click)="addTag()">
+                    <span class="tf-icons bx bx-plus"></span>
+                  </button>
+                  <span>&nbsp;Add Tag</span>
+                  <hr />
+                </div>
+
+                <div formArrayName="steps">
+                  <div *ngFor="let entry of steps.controls; let k = index">
+                    <div [formGroupName]="k">
+                      <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Step {{ k + 1 }}</h5>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label" for="basic-default-message">Instruction</label>
+                        <div class="col-sm-10">
+                          <textarea id="basic-default-message" class="form-control"
+                            placeholder="Prep oven and enchilada sauce. Preheat oven to 350°F.  Prepare your enchilada sauce.."
+                            formControlName="instruction"></textarea>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">Tip</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" placeholder="" name="tip" formControlName="tip" />
+                        </div>
+                      </div>
+                      <br>
+                      <br>
+                      <br>
+                      
+                        <div class="card mb-4">
+                          <div *ngIf="showEditStepComponent ">
+                            <div class="row mb-3">
+                              <label for="formFile" class="col-sm-2 col-form-label">Video</label>
+                              <div class="col-sm-10">
+                                 <input class="form-control" name="video" type="file" id="formFile" (change)="onFileSelectedStepVideo($event,k)" />
+                                 
+                                 <div class="card-body">
+                                   <div class="row mb-3">
+                                     <div class="col-sm-10 mt-5" style="
+                                       display: flex;
+                                       justify-content: center;
+                                       align-items: center;
+                                       height: 100%;
+                                       overflow: hidden; 
+                                     ">
+                                       
+                                       <!-- Display video for the selected step -->
+                                       <div *ngIf="getStepVideoUrl(k) !== null">
+                                         <video #videoStepPlayer width="100%" height="100%" style="object-fit: contain;" controls><source [src]="getStepVideoUrl(k)" type="video/mp4"></video>
+                                       </div>
+                                       <div *ngIf="getStepVideoUrl(k) === null">
+                                         <p>This step does not have a video.</p>
+                                       </div>
+                                     </div>
+                                   </div>
+                                 </div>
+                              </div>
+                             </div>
+                             
+                          
+                        </div>
+                        
+                      </div>                      
+                      
+                      
+                      <br />
+                    
+                    <hr />
+                    <br />
+                    <br />
+                      <div formArrayName="ingredientQuantityObjects" style="position: relative">
+                        <div *ngFor="
+                            let entry of getIngredientArray(k).controls;
+                            let j = index
+                          ">
+                          <div [formGroupName]="j">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                              <h5 class="mb-0">Ingredient {{ j + 1 }}</h5>
+                            </div>
+
+                            <div formGroupName="ingredient">
+                              <div class="row mb-3 float-container">
+                                <label class="col-sm-2 col-form-label">Name*</label>
+                                <div class="col-sm-10">
+                                  <div class="form-select flex-container" data-bs-toggle="dropdown" (click)="toggleDropdown($event)">
+                                    <div
+                                      *ngIf="this.selectedOption && this.selectedOption[k] && this.selectedOption[k][j]">
+                                      <img *ngIf="this.selectedOption[k][j]?.image?.id"
+                                           width="30" height="30" style="padding-bottom: 2px; "
+                                           [src]="imagesToShow[this.selectedOption[k][j].image.id]">
+                                      {{this.selectedOption[k][j].name}}
+                                    </div>
+                                  </div>
+                                  <div class="dropdown-menu">
+                                    <div class="dropdown-content" #dropdownContent (scroll)="onScroll()">
+                                      <input type="text" class="form-control" placeholder="Search..."
+                                             aria-label="Search..." #searchInput (input)="searchTerm$.next(searchInput.value)">
+                                      <div class="dropdown-item" *ngFor="let option of filteredIng | slice:0:10; let o = index"
+                                           [class.disabled]="option.disable"
+                                           (click)="selectItem(option,k,j,o)"   [ngClass]="{ 'show': isDropdownOpen }" >
+                                           <img *ngIf="option.image!=null" width="30" height="30" [src]="imagesToShow[option.image.id]">    
+                                           {{ option.name }}
+
+                                      </div>
+                                      <div id="showMore" [style.display]="
+                                          showMoreVisible ? 'block' : 'none'
+                                        "></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row mb-3">
+                              <label class="col-sm-2 col-form-label">Quantity</label>
+                              <div class="col-sm-10">
+                                <input type="number" class="form-control" placeholder="113" formControlName="quantity"
+                                  min="0" />
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label class="col-sm-2 col-form-label">Unit</label>
+                              <div class="col-sm-10">
+                                <select *ngIf="
+                                    this.selectedOption &&
+                                    this.selectedOption[k] &&
+                                    this.selectedOption[k][j]
+                                      ?.selectedIngredientUnitAlternatives
+                                  " class="form-select" id="exampleFormControlSelect1" formControlName="unit">
+                                  <option *ngFor="
+                                      let unit of this.selectedOption[k][j]
+                                        ?.selectedIngredientUnitAlternatives
+                                    " [value]="unit">
+                                    {{ unit }}
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+                            <hr />
+                          </div>
+
+                          <button type="button" class="btn rounded-pill btn-icon btn-danger"
+                            (click)="removeIngredient(k, j)">
+                            <span class="tf-icons bx bx-minus"></span>
+                          </button>
+                          <span>&nbsp;Remove Ingredient&nbsp;</span>
+                          <hr />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn rounded-pill btn-icon btn-primary" (click)="addIngredient(k)">
+                      <span class="tf-icons bx bx-plus"></span>
+                    </button>
+                    <span>&nbsp;Add Ingredient&nbsp;</span>
+
+                    <button type="button" class="btn rounded-pill btn-icon btn-danger" (click)="removeStep(k)">
+                      <span class="tf-icons bx bx-minus"> </span>
+                    </button>
+                    <span>&nbsp;Remove Step&nbsp;&nbsp;&nbsp;</span>
+                    <hr />
+                  </div>
+                </div>
+
+                <button type="button" class="btn rounded-pill btn-icon btn-primary" (click)="addStep()">
+                  <span class="tf-icons bx bx-plus"> </span>
+                </button>
+                <span>&nbsp;Add Step&nbsp;&nbsp;&nbsp;</span>
+
+                <hr />
+
+                <div class="row justify-content-end">
+                  <div class="col-sm-10">
+                    <button class="btn btn-primary btn-lg" type="submit">
+                      Save
+                    </button>
+                  </div>
+                </div>
+                <app-loader *ngIf="loaderService.loading$ | async"></app-loader>
+              </form>
+            </div>
+          </div>
+        </div>
+        <mat-expansion-panel *ngIf="currentUserRole === 'ROLE_CREATOR'">
+          <mat-expansion-panel-header style="background-color: #e8e8e8b5;">
+            <mat-panel-title style="justify-content: center">
+              Add Comment / Change Recipe Status
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="comment-form">
+            <ng-template #commentPlaceholder></ng-template>
+            <!-- Your comment form goes here -->
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </div>
+  </div>
+</div>

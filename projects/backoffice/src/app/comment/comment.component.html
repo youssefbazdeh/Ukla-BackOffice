@@ -1,0 +1,31 @@
+<div class="page-container">
+  <div class="review-section">
+    <h3>Review : </h3>
+    <form #commentForm="ngForm" (ngSubmit)="onSubmit(commentForm.value)">
+      
+      <!-- Comment Area -->
+      <label for="comment">Your Comment <span class="suggestion-icon">📝</span> :</label>
+      <textarea id="comment" name="comment" rows="4" cols="50" [(ngModel)]="commentText" [readonly]="isSubmitEnabled()"></textarea>
+      <!-- Select Options Field -->
+      <div *ngIf="currentUserRole === 'ROLE_CREATOR'">
+        <label for="status">Status <span class="suggestion-icon">⚙️</span> :</label>
+        <p class="card-text" [ngClass]="{'accepted': status === 'Accepted', 'require_changes': status === 'Require_changes', 'in_review': status === 'In_review', 'banned': status === 'Banned', 'verified':status === 'Verified'}">
+          {{ status }}
+      </p>
+       
+        
+      </div>
+      
+      <div *ngIf="currentUserRole === 'ROLE_ADMIN'">
+        <label for="status">Change Recipe Status <span class="suggestion-icon">⚙️</span> :</label>
+        <select id="status" name="status" [(ngModel)]="status" >
+          <option *ngFor="let statusValue of statusList" [value]="statusValue">{{ statusValue }}</option>
+        </select>
+      </div>
+      
+      <!-- Submit Button -->
+      <button class="btn btn-primary btn-lg" type="submit" *ngIf="currentUserRole === 'ROLE_CREATOR' && !isSubmitEnabled()">Send to review </button>
+      <button class="btn btn-primary btn-lg" type="submit" *ngIf="currentUserRole === 'ROLE_ADMIN'">Send </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <app-menu *ngIf="currentUserRole === 'ROLE_ADMIN'"></app-menu>
+      <back-creator-menu *ngIf="currentUserRole === 'ROLE_CREATOR'"></back-creator-menu>
+        </aside>    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+            <!-- User -->
+            <button class="dropdown-item"  (click)="onLogoutClick()">
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button>              <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+      <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Recipe /</span> Details</h4>
+
+
+              <div class="card mb-4">
+                <div class="card-body">
+
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0"> {{this.name}}</h5>
+                  </div>
+                  <div class="d-flex align-items-start align-items-sm-center gap-4">
+                    <img class="d-block rounded"
+                         height="100"
+                         width="100"  [src]="imagesToShow[recipe.image.id]"/>
+                    <div class="button-wrapper">
+                      <a href="EditRecipe/{{recipe.name}}">
+                        <label class="btn btn-primary me-2 mb-4" tabindex="0">
+
+                          <span class="d-none d-sm-block">Edit Recipe</span>
+
+                          <i class="bx bx-upload d-block d-sm-none"></i>
+
+                        </label>
+                      </a>
+                      <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" (click)="deleteRecipe(recipe.id)">
+                        <i class="bx bx-reset d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Delete</span>
+                      </button>
+
+
+                    </div>
+                  </div>
+
+               <br>
+                  <h6 class="mb-0">Description : </h6> <p>{{recipe.description}}  </p>
+                  <h6 class="mb-0">Preparation Time : </h6> <p> {{ recipe.preparationTime }} min </p>
+                  <h6 class="mb-0">Cooking Time  : </h6> <p> {{ recipe.cookingTime }} min </p>
+                  <h6 class="mb-0">Calories : </h6><p> {{ recipe.calories }}  </p>
+                  <h6 class="mb-0">Carbs : </h6><p> {{ recipe.carbs}}  </p>
+                  <h6 class="mb-0">Fat : </h6><p> {{ recipe.fat}}  </p>
+                  <h6 class="mb-0">Fiber : </h6><p> {{ recipe.fiber}}  </p>
+
+
+
+
+
+                  <h6 class="mb-0">Steps : </h6>
+                  <br>
+                  <div class="table-responsive text-nowrap">
+                    <table class="table">
+
+                      <thead>
+                      <tr>
+                        <th>Step Number</th>
+                        <th>Instruction</th>
+                        <th>Tip</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+
+                      <tr *ngFor="let step of steps let i=index">
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>{{i + 1}}</td>
+                        <td>
+                          <p>{{ step.instruction.length > 60 ? (step.instruction | slice:0:50) + '...' : step.instruction }}</p>
+                        </td>
+                        <td>{{step.tip.length > 60 ? (step.instruction | slice:0:50) + '...' : step.tip }}</td>
+
+
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="badge bg-label-primary me-1 " data-bs-toggle="dropdown">
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="javascript:void(0);"><i
+                                class="badge bg-label-primary me-1"></i>
+
+                              </a>
+                              <a class="dropdown-item" href="javascript:void(0);"><i
+                                class="badge bg-label-primary me-1"></i>
+                                SUPER ADMIN</a>
+                            </div>
+                          </div>
+
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+
+                              <a class="dropdown-item" href="/EditStep/{{step.id}}"
+                              ><i class="bx bx-edit-alt me-1"></i> Edit Video</a
+                              >
+                              <button class="dropdown-item" (click)="deleteStep(recipe.id,step.id)"
+                              ><i class="bx bx-trash me-1"></i> Delete</button
+                              >
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+
+                  <!-- /Account -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / Content -->
+
+
+      </div>
+    </div>
+

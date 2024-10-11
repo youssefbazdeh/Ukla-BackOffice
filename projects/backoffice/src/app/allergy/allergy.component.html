@@ -1,0 +1,119 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+      <app-menu></app-menu>
+    </aside>    <!-- / Menu -->
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      <!-- Navbar -->
+      <nav
+        class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- Search -->
+          <div class="navbar-nav align-items-center">
+
+          </div>
+          <!-- /Search -->
+
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <!-- Place this tag where you want the button to render. -->
+
+            <!-- User -->
+            <button class="dropdown-item" (click)="onLogoutClick()" >
+              <i class="bx bx-power-off me-2"></i>
+              <span class="align-middle">Log Out</span>
+            </button>              <!--/ User -->
+          </ul>
+        </div>
+      </nav>
+
+      <!-- / Navbar -->
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+        <!--        <h4 class="fw-bold py-3 mb-4" style="padding-left: 10px;"><span class="text-muted fw-light">Allergy /</span> Details </h4>-->
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Allergy /</span> Details</h4>
+          <div class="card mb-4">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h5 class="mb-0"> {{allergy.name}}</h5>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <img   class="d-block rounded"
+                       height="100"
+                       width="100" [src]="imagesToShow[this.imageId]" />
+                <div class="button-wrapper">
+                  <a href="EditAllergy/{{this.id}}">
+                  <label  class="btn btn-primary me-2 mb-4" tabindex="0">
+
+                    <span class="d-none d-sm-block">Edit Allergy</span>
+
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+
+                  </label>
+                  </a>
+                  <button (click)="delete(this.id)" type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                    <i class="bx bx-reset d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Delete</span>
+                  </button>
+
+
+                </div>
+              </div>
+
+              <hr/>
+              <h6 class="card-title">Ingredients : </h6>
+
+              <div class="ingredientE-container">
+                <div class="ingredientE-row" *ngFor="let ingredient of ingredientNames; let k = index;">
+                  <div class="ingredientE-item">
+                    <img height="30" width="30" [src]="imagesToShow[ ingredient.image.id]">
+                    <p class="ingredient-name">{{ ingredient.name }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!--                  <div class=" mb-5" style="padding-left: 600px;">-->
+<!--                    <div  class="md-6 col-lg-7 mb-3">-->
+<!--                      <div class="card h-100">-->
+<!--                        <img class="card-img-top" [src]="'http://localhost:8080/ukla/file-system/image/' + this.imageId" />-->
+<!--                        <div class="card-body">-->
+<!--                          <h4 class="card-title">{{allergy.name}}</h4>-->
+
+<!--                          <hr/>-->
+<!--                          <h6 class="card-title">Ingredients : </h6>-->
+
+<!--                          <div class="ingredientE-container">-->
+<!--                            <div class="ingredient-row" *ngFor="let ingredient of ingredientNames; let k = index;">-->
+<!--                              <div class="ingredient-item">-->
+<!--                                <img height="30" width="30" [src]="'http://localhost:8080/ukla/file-system/image/' + ingredient.image.id">-->
+<!--                                <p class="ingredient-name">{{ ingredient.name }}</p>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                  </div>-->
+
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

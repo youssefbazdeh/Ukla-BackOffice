@@ -1,0 +1,19 @@
+.ingredientE-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the minmax values as needed */
+    gap: 10px; /* Adjust the gap between items */
+    justify-content: flex-start; /* Aligns items to the start of the container */
+    align-items: center; /* Aligns items vertically in the center */
+    display: flex;
+    flex-wrap: wrap; /* Allows the items to wrap onto multiple lines if needed */
+   }
+   .ingredientE-row {
+    white-space: nowrap; /* Prevents the items from wrapping to the next line */
+   }
+   
+   .ingredientE-item {
+    display: inline-block; /* Makes the items display inline */
+    margin-right: 10px; /* Adds some space between the items */
+   }
+   
+      

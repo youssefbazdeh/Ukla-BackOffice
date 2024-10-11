@@ -1,0 +1,127 @@
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+<!-- Menu -->
+  
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <back-creator-menu></back-creator-menu>
+</aside>    <!-- / Menu -->
+<div class="layout-page">
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner">
+        <!-- Register Card -->
+        <div class="card larger-card-horizontal">
+          <div class="card-body">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center">
+              <a href="/Login"><img height="50px" src="assets/img/avatars/logoUkla.png" id="signupLogo"/></a>
+            </div>
+            <!-- /Logo -->
+            <h4 class="mb-2">Edit Your Profile Here </h4>
+            <br>
+            <label for="firstname" class="form-label">Profile Picture </label>
+<!-- Image Selection -->
+<div class="image-selection">
+    <!-- Hidden file input -->
+    <input type="file" id="fileInput" (change)="fileChangeEvent($event)" class="file-input" style="display: none;" />
+   
+    <!-- Label to trigger the file input -->
+    <label for="fileInput" class="btn btn-primary d-grid w-100">Choose File</label>
+   
+    <image-cropper
+         [imageChangedEvent]="imageChangedEvent"
+         [maintainAspectRatio]="true"
+         [aspectRatio]="4 / 3"
+         format="png"
+         (imageCropped)="imageCropped($event)"
+         (imageLoaded)="imageLoaded($event)"
+         (cropperReady)="cropperReady()"
+         (loadImageFailed)="loadImageFailed()"
+         class="image-cropper"
+    ></image-cropper>
+   
+    <img [src]="croppedImage ? croppedImage : imagesToShow[creator.image.id]" class="circled-image" />
+   </div>
+            <br>
+            <form #formGroup="ngForm" id="formAuthentication" class="mb-3" (ngSubmit)="update()">
+              <div class="mb-3" >
+                <label for="firstname" class="form-label">FirstName</label>
+                <div class="input-group input-group-merge">
+                  <input type="text" class="form-control" id="firstname" [(ngModel)]="creator.firstName" name="firstname"  [disabled]="!isEditable['firstName']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('firstName')"><i class="bx bx-pencil"></i></span>
+                </div>
+                
+              </div>
+              <div class="mb-3">
+                <label for="lastname" class="form-label">LastName</label>
+                
+                <div class="input-group input-group-merge">
+                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your lastname"
+                  [(ngModel)]="creator.lastName" [disabled]="!isEditable['lastName']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('lastName')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                
+                <div class="input-group input-group-merge">
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username"
+                  [(ngModel)]="creator.username" [disabled]="!isEditable['username']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('username')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <div class="input-group input-group-merge">
+                  <input type="text" class="form-control" id="description" name="description" placeholder="Enter your description"
+                [(ngModel)]="creator.description" [disabled]="!isEditable['description']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('description')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="dateBirth" class="form-label">BirthDay</label>
+                
+                <div class="input-group input-group-merge">
+                  <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Enter your BirthDay"
+                [(ngModel)]="creator.birthdate" [disabled]="!isEditable['birthdate']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('birthdate')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              <div class="mb-3 ">
+                <label for="language" class="form-label">Gender</label>
+                
+                <div class="input-group input-group-merge">
+                  <select id="language" class="select2 form-select" name="gender"  [(ngModel)]="creator.gender" [disabled]="!isEditable['gender']">
+  
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+    
+                  </select>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('gender')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                
+                <div class="input-group input-group-merge">
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email"
+                [(ngModel)]="creator.email" [disabled]="!isEditable['email']"/>
+                  <span class="input-group-text cursor-pointer" (click)="enableEdit('email')"><i class="bx bx-pencil"></i></span>
+                </div>
+              </div>
+              
+  
+  
+              <button class="btn btn-primary d-grid w-100" [disabled]="!fieldChanges">Update</button>
+  
+            </form>
+          </div>
+        </div>
+        <!-- Register Card -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- / Content -->
+</div></div></div>

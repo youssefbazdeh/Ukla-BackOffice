@@ -1,0 +1,79 @@
+<div class="container-xxl">
+  <div class="authentication-wrapper authentication-basic container-p-y">
+    <div class="authentication-inner">
+      <!-- Register Card -->
+      <div class="card">
+        <div class="card-body">
+          <!-- Logo -->
+          <div class="app-brand justify-content-center">
+            <a href="/Login"><img height="50px" src="assets/img/avatars/logoUkla.png" id="signupLogo"/></a>
+          </div>
+          <!-- /Logo -->
+          <h4 class="mb-2">Adventure starts here 🚀</h4>
+
+          <form [formGroup]="RegForm" id="formAuthentication" class="mb-3" (ngSubmit)="userCreate()">
+            <div class="mb-3">
+              <label for="firstname" class="form-label">FirstName</label>
+              <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your firstName"
+                autofocus formControlName="firstName" />
+            </div>
+            <div class="mb-3">
+              <label for="lastname" class="form-label">LastName</label>
+              <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your lastname"
+                autofocus formControlName="lastName" />
+            </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username"
+                autofocus formControlName="username" />
+            </div>
+            <div class="mb-3">
+              <label for="dateBirth" class="form-label">BirthDay</label>
+              <input type="date" class="form-control" id="dateBirth" name="dateBirth" placeholder="Enter your BirthDay"
+                autofocus formControlName="birthdate" />
+            </div>
+            <div class="mb-3 ">
+              <label for="language" class="form-label">Gender</label>
+              <select id="language" class="select2 form-select" name="gender" formControlName="gender">
+
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email"
+                formControlName="email" />
+            </div>
+            <div class="mb-3 form-password-toggle">
+              <label class="form-label" for="password">Password</label>
+              <div class="input-group input-group-merge">
+                <input type="{{ showPassword ? 'text' : 'password' }}" id="password" class="form-control" name="password"
+                  placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                  aria-describedby="password" formControlName="password" />
+                <span class="input-group-text cursor-pointer" (click)="togglePassword()"><i class="bx bx-hide" ></i></span>
+              </div>
+            </div>
+
+
+            <button class="btn btn-primary d-grid w-100">Sign up</button>
+            <app-loader *ngIf="loaderService.loading$ | async"></app-loader>
+
+          </form>
+
+            <p class="text-center">s
+              <span>Already have an account?</span>
+              <a href="Login">
+                <span>Sign in instead</span>
+              </a>
+            </p>
+        </div>
+      </div>
+      <!-- Register Card -->
+    </div>
+  </div>
+</div>
+
+<!-- / Content -->
